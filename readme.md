@@ -43,3 +43,11 @@ func main() {
 	http.ListenAndServe("localhost:5000", r)
 }
 ```
+
+### 4. Running
+
+Running Your App with this commad
+
+```
+go run main.go
+```
