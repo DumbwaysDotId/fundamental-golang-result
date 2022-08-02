@@ -1,39 +1,3 @@
-# Group routes
-
-Group Routes are needed in API development to differentiate a route for API or for standard website link.
-
-- Create `routes` folder source inside it have `index.go` file
-
-- Create `handlers` folder source inside it have `todo.go` file
-
----
-
-- On `routes/index.go` file, declare route and handler
-
-> File: `routes/index.go`
-
-```go
-package routes
-
-import (
-	"dumbmerch/handlers"
-	"github.com/gorilla/mux"
-)
-
-func RouteInit(r *mux.Router) {
-
-	r.HandleFunc("/todos", handlers.FindTodos).Methods("GET")
-	r.HandleFunc("/todo/{id}", handlers.GetTodo).Methods("GET")
-	r.HandleFunc("/todo", handlers.CreateTodo).Methods("POST")
-	r.HandleFunc("/todo/{id}", handlers.UpdateTodo).Methods("PATCH")
-	r.HandleFunc("/todo/{id}", handlers.DeleteTodo).Methods("DELETE")
-}
-
-```
-
-- On `handlers/todo.go` file, declare `struct`, `dummy data`, and the handlers function
-
-```go
 package handlers
 
 import (
@@ -42,14 +6,12 @@ import (
 	"encoding/json"
 )
 
-// Todos struct
 type Todos struct {
 	Id string `json:"id"`
 	Title string `json:"title"`
 	IsDone bool `isDone:"isDone"`
 }
 
-// Todos dummy data
 var todos = []Todos{
 	{
 		Id: "1",
@@ -63,20 +25,12 @@ var todos = []Todos{
 	},
 }
 
-```
-
-```go
-// Get All Todo
 func FindTodos(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(todos)
 }
 
-```
-
-```go
-// Get Todo by Id
 func GetTodo(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -91,7 +45,7 @@ func GetTodo(w http.ResponseWriter, r *http.Request){
 			todoData = todo
 		}
 	}
-
+	
 	if isGetTodo == false {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode("ID: " + id + " not found")
@@ -101,10 +55,7 @@ func GetTodo(w http.ResponseWriter, r *http.Request){
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(todoData)
 }
-```
 
-```go
-// Create Todo
 func CreateTodo(w http.ResponseWriter, r *http.Request){
 	var data Todos
 
@@ -116,10 +67,7 @@ func CreateTodo(w http.ResponseWriter, r *http.Request){
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(todos)
 }
-```
 
-```go
-// Update Todo
 func UpdateTodo(w http.ResponseWriter, r *http.Request){
 	params := mux.Vars(r)
 	id := params["id"]
@@ -145,10 +93,7 @@ func UpdateTodo(w http.ResponseWriter, r *http.Request){
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(todos)
 }
-```
 
-```go
-// Delete Todo
 func DeleteTodo(w http.ResponseWriter, r *http.Request){
 	params := mux.Vars(r)
 	id := params["id"]
@@ -174,4 +119,3 @@ func DeleteTodo(w http.ResponseWriter, r *http.Request){
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode("ID: " + id + " delete success")
 }
-```
