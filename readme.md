@@ -1,21 +1,5 @@
-# Make Hello World
+# Routing
 
-### 1. Initializing project
+Routing in `gorilla/mux` is pretty straightforward. Make sure you already understand the core concept of REST API like using GET/POST/PATCH/DELETE etc.
 
-```bash
-go mod init _project_name_
-```
-
-### 2. Install gorilla/mux
-
-```bash
-go get -u github.com/gorilla/mux
-```
-
-Package `gorilla/mux` implements a request router and dispatcher for matching incoming requests to their respective handler.
-
-### 3. Create `main.go` file and write this below code to print 'Hello wolrd'
-
-```go
-
-```
+`API` or `Application Programming Interface` is an interface that can connect one application with another application. Thus, the API acts as an intermediary between different applications, either within the same platform or across platforms.
