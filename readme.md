@@ -2,15 +2,30 @@
 
 Group Routes are needed in API development to differentiate a route for API or for standard website link.
 
-- Create `routes` folder source inside it have `index.go` file
+- Create `routes` folder source inside it have `routes.go` and `todos.go` file
 
 - Create `handlers` folder source inside it have `todo.go` file
 
 ---
 
-- On `routes/index.go` file, declare route and handler
+- On `routes/routes.go` file, declare Grouping Function for all Route
 
-> File: `routes/index.go`
+```go
+package routes
+
+import (
+	"github.com/gorilla/mux"
+)
+
+func RouteInit(r *mux.Router) {
+	TodoRoutes(r)
+}
+
+```
+
+- On `routes/todos.go` file, declare route and handler
+
+> File: `routes/todos.go`
 
 ```go
 package routes
@@ -20,7 +35,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func RouteInit(r *mux.Router) {
+func TodoRoutes(r *mux.Router) {
 
 	r.HandleFunc("/todos", handlers.FindTodos).Methods("GET")
 	r.HandleFunc("/todo/{id}", handlers.GetTodo).Methods("GET")

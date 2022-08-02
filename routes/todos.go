@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func RouteInit(r *mux.Router) {
+func TodoRoutes(r *mux.Router) {
 
 	r.HandleFunc("/todos", handlers.FindTodos).Methods("GET")
 	r.HandleFunc("/todo/{id}", handlers.GetTodo).Methods("GET")
