@@ -1,177 +1,28 @@
-# Group routes
-
-Group Routes are needed in API development to differentiate a route for API or for standard website link.
-
-- Create `routes` folder source inside it have `index.go` file
-
-- Create `handlers` folder source inside it have `todo.go` file
+> This section we will using Database to store data
 
 ---
 
-- On `routes/index.go` file, declare route and handler
+# Prepare
 
-> File: `routes/index.go`
+Installation:
 
-```go
-package routes
+- Gorm
 
-import (
-	"dumbmerch/handlers"
-	"github.com/gorilla/mux"
-)
+  ```bash
+  go get -u gorm.io/gorm
+  ```
 
-func RouteInit(r *mux.Router) {
+- MySql
+  ```bash
+  gorm.io/driver/mysql
+  ```
 
-	r.HandleFunc("/todos", handlers.FindTodos).Methods("GET")
-	r.HandleFunc("/todo/{id}", handlers.GetTodo).Methods("GET")
-	r.HandleFunc("/todo", handlers.CreateTodo).Methods("POST")
-	r.HandleFunc("/todo/{id}", handlers.UpdateTodo).Methods("PATCH")
-	r.HandleFunc("/todo/{id}", handlers.DeleteTodo).Methods("DELETE")
-}
+Database:
 
-```
+- Create database named "dumbmerch"
 
-- On `handlers/todo.go` file, declare `struct`, `dummy data`, and the handlers function
+- Create `pkg` folder, inside it create `mysql` folder
 
-```go
-package handlers
+- Inside `mysql` folder, create `mysql.go` file
 
-import (
-	"net/http"
-	"github.com/gorilla/mux"
-	"encoding/json"
-)
-
-// Todos struct
-type Todos struct {
-	Id string `json:"id"`
-	Title string `json:"title"`
-	IsDone bool `isDone:"isDone"`
-}
-
-// Todos dummy data
-var todos = []Todos{
-	{
-		Id: "1",
-		Title: "Cuci tangan",
-		IsDone: true,
-	},
-	{
-		Id: "2",
-		Title: "Jaga jarak",
-		IsDone: false,
-	},
-}
-
-```
-
-```go
-// Get All Todo
-func FindTodos(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(todos)
-}
-
-```
-
-```go
-// Get Todo by Id
-func GetTodo(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/json")
-	params := mux.Vars(r)
-	id := params["id"]
-
-	var todoData Todos
-	var isGetTodo = false
-
-	for _, todo := range todos {
-		if id == todo.Id {
-			isGetTodo = true
-			todoData = todo
-		}
-	}
-
-	if isGetTodo == false {
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode("ID: " + id + " not found")
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(todoData)
-}
-```
-
-```go
-// Create Todo
-func CreateTodo(w http.ResponseWriter, r *http.Request){
-	var data Todos
-
-	json.NewDecoder(r.Body).Decode(&data)
-
-	todos = append(todos, data)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(todos)
-}
-```
-
-```go
-// Update Todo
-func UpdateTodo(w http.ResponseWriter, r *http.Request){
-	params := mux.Vars(r)
-	id := params["id"]
-	var data Todos
-	var isGetTodo = false
-
-	json.NewDecoder(r.Body).Decode(&data)
-
-	for idx, todo := range todos {
-		if id == todo.Id {
-			isGetTodo = true
-			todos[idx] = data
-		}
-	}
-
-	if isGetTodo == false {
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode("ID: " + id + " not found")
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(todos)
-}
-```
-
-```go
-// Delete Todo
-func DeleteTodo(w http.ResponseWriter, r *http.Request){
-	params := mux.Vars(r)
-	id := params["id"]
-	var isGetTodo = false
-	var index = 0
-
-	for idx, todo := range todos {
-		if id == todo.Id {
-			isGetTodo = true
-			index = idx
-		}
-	}
-
-	if isGetTodo == false {
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode("ID: " + id + " not found")
-		return
-	}
-
-	todos = append(todos[:index], todos[index+1:]...)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode("ID: " + id + " delete success")
-}
-```
+# Fetching Query with Gorm
