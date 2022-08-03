@@ -24,9 +24,11 @@
   go get github.com/go-playground/validator/v10
   ```
 
-### Database, Models, Auto Migrate, and Connection
+### Database
 
-- Create database named `dumbmerch`
+Create database named `dumbmerch`
+
+### Models
 
 - Create `models` folder, inside it Create `user.go` file, and write below code
 
@@ -47,6 +49,8 @@
     UpdatedAt 	time.Time	`json:"updated_at"`
   }
   ```
+
+### Auto Migrate
 
 - Create `database` folder, inside it Create `migration.go` file, and write below code
 
@@ -73,6 +77,8 @@
     fmt.Println("Migration Success")
   }
   ```
+
+### Connection
 
 - Create `pkg` folder, inside it Create `mysql` folder, inside it Create `mysql.go` file, and write below code
 
