@@ -2,9 +2,20 @@
 
 ---
 
-## Guide Section
+## Table of contents
 
-- [Root file](#Handlers)
+- [Prepare](#prepare)
+  - [Installation](#installation)
+  - [Database](#database)
+  - [Models](#models)
+  - [Auto Migrate](#auto-migrate)
+  - [Connection](#Connection)
+  - [Data Transfer Object (DTO)](#data-transfer-object-dto)
+- [Fetching Query with Gorm](#fetching-query-with-gorm)
+  - [Repositories](#repositories)
+  - [Handlers](#handlers)
+  - [Routes](#routes)
+  - [Root file `main.go`](#root-file-maingo)
 
 # Prepare
 
