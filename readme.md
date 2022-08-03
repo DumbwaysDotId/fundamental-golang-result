@@ -13,8 +13,15 @@ Installation:
   ```
 
 - MySql
+
   ```bash
   go get -u gorm.io/driver/mysql
+  ```
+
+- Validator
+
+  ```go
+  go get github.com/go-playground/validator/v10
   ```
 
 Database:
