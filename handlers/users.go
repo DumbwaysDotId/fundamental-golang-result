@@ -32,7 +32,6 @@ func (h *handler) FindUsers(w http.ResponseWriter, r *http.Request)  {
 		
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: users}
-
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -40,7 +39,6 @@ func (h *handler) GetUser(w http.ResponseWriter, r *http.Request)  {
 	w.Header().Set("Content-Type", "application/json")
 
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
-
 	
 	user, err := h.UserRepository.GetUser(id)
 	if err != nil {
