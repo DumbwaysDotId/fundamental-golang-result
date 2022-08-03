@@ -33,7 +33,6 @@ func (h *handler) FindUsers(w http.ResponseWriter, r *http.Request)  {
 		
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: users}
-
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -107,14 +106,9 @@ func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
-	user, err := h.UserRepository.GetUser(id)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}	
-		json.NewEncoder(w).Encode(response)
-		return
-	}
+	user := models.User{}
 
+	// var user = new(usersdto.UpdateUserRequest)
 	if request.Name != "" {
 		user.Name = request.Name
 	}
@@ -127,7 +121,7 @@ func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		user.Password = request.Password
 	}
 
-	data, err := h.UserRepository.UpdateUser(user)
+	data, err := h.UserRepository.UpdateUser(user,id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}	
