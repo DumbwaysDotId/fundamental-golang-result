@@ -14,12 +14,12 @@ Installation:
 
 - MySql
   ```bash
-  gorm.io/driver/mysql
+  go get -u gorm.io/driver/mysql
   ```
 
 Database:
 
-- Create database named "dumbmerch"
+- Create database named `dumbmerch`
 
 - Create `pkg` folder, inside it create `mysql` folder
 

@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"net/http"
-	"github.com/gorilla/mux"
 	"encoding/json"
+	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type Todos struct {
