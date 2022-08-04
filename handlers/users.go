@@ -108,7 +108,6 @@ func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	user := models.User{}
 
-	// var user = new(usersdto.UpdateUserRequest)
 	if request.Name != "" {
 		user.Name = request.Name
 	}
