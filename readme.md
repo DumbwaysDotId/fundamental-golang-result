@@ -15,7 +15,7 @@
   - [Repositories](#repositories)
   - [Handlers](#handlers)
   - [Routes](#routes)
-  - [Root file `main.go`](#root-file-maingo)
+  - [Root file main.go](#root-file-maingo)
 
 # Prepare
 
