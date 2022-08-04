@@ -1,10 +1,3 @@
-## Table of contents
-
-- [Fetching data with ORM](#fetching-data-with-orm)
-  - [Repositories](#repositories)
-  - [Handlers](#handlers)
-  - [Routes](#routes)
-
 # Fetching data with ORM
 
 ### Repositories
