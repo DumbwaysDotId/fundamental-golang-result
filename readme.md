@@ -26,12 +26,13 @@
   type UserRepository interface {
     FindUsers() ([]models.User, error)
     GetUser(ID int) (models.User, error)
-    CreateUser(user models.User) (models.User, error)
+    CreateUser(user models.User) (models.User, error) // Write this code
   }
   ```
 - Write `CreateUser` function
 
   ```go
+   // Write this code
   func (r *repository) CreateUser(user models.User) (models.User, error) {
     err := r.db.Exec("INSERT INTO users(name,email,password,created_at,updated_at) VALUES (?,?,?,?,?)",user.Name,user.Email, user.Password, time.Now(), time.Now()).Error
 
@@ -56,7 +57,7 @@
     "encoding/json"
     "net/http"
     "strconv"
-    "github.com/go-playground/validator/v10"
+    "github.com/go-playground/validator/v10"  // Write this code
     "github.com/gorilla/mux"
   )
   ```
@@ -64,6 +65,7 @@
 - Write `CreateUser` function
 
   ```go
+   // Write this code
   func (h *handler) CreateUser(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
@@ -116,6 +118,6 @@
 
     r.HandleFunc("/users", h.FindUsers).Methods("GET")
     r.HandleFunc("/user/{id}", h.GetUser).Methods("GET")
-    r.HandleFunc("/user", h.CreateUser).Methods("POST")
+    r.HandleFunc("/user", h.CreateUser).Methods("POST")  // Write this code
   }
   ```
