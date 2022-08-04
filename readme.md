@@ -16,7 +16,7 @@
   ```go
   func (r *repository) FindUsers() ([]models.User, error) {
     var users []models.User
-    err := r.db.Find(&users).Error // Using FInd method
+    err := r.db.Find(&users).Error // Using Find method
 
     return users, err
   }
