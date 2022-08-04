@@ -1,28 +1,15 @@
-> This section we will using Database to store data
+# Delete data with ORM
 
----
+### Repositories
 
-# Prepare
+> File: `repositories/users.go`
 
-Installation:
+- Delete User data using `Delete` method
 
-- Gorm
+  ```go
+  func (r *repository) DeleteUser(user models.User) (models.User, error) {
+    err := r.db.Delete(&user).Error // Using Delete method
 
-  ```bash
-  go get -u gorm.io/gorm
+    return user, err
+  }
   ```
-
-- MySql
-  ```bash
-  go get -u gorm.io/driver/mysql
-  ```
-
-Database:
-
-- Create database named `dumbmerch`
-
-- Create `pkg` folder, inside it create `mysql` folder
-
-- Inside `mysql` folder, create `mysql.go` file
-
-# Fetching Query with Gorm
