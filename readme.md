@@ -1,31 +1,32 @@
 ## Table of contents
 
-- [Update Query with Gorm](#update-query-with-gorm)
+- [Delete Query with Gorm](#delete-query-with-gorm)
   - [Repositories](#repositories)
   - [Handlers](#handlers)
   - [Routes](#routes)
 
-# Update Query with Gorm
+# Delete Query with Gorm
 
 ### Repositories
 
 > File: `repositories/users.go`
 
-- Declare `UpdateUser` interface
+- Declare `DeleteUser` interface
   ```go
   type UserRepository interface {
     FindUsers() ([]models.User, error)
     GetUser(ID int) (models.User, error)
     CreateUser(user models.User) (models.User, error)
-    UpdateUser(user models.User, ID int) (models.User, error) // Write this code
+    UpdateUser(user models.User, ID int) (models.User, error)
+    DeleteUser(user models.User, ID int) (models.User, error) // Write this code
   }
   ```
-- Write `UpdateUser` function
+- Write `DeleteUser` function
 
   ```go
    // Write this code
-  func (r *repository) UpdateUser(user models.User, ID int) (models.User, error) {
-    err := r.db.Raw("UPDATE users SET name=?, email=?, password=? WHERE id=?", user.Name, user.Email, user.Password,ID).Scan(&user).Error
+  func (r *repository) DeleteUser(user models.User,ID int) (models.User, error) {
+    err := r.db.Raw("DELETE FROM users WHERE id=?",ID).Scan(&user).Error
 
     return user, err
   }
@@ -35,38 +36,24 @@
 
 > File: `handlers/users.go`
 
-- Write `UpdateUser` function
+- Write `DeleteUser` function
 
   ```go
   // Write this code
-  func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
+  func (h *handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
-    request := new(usersdto.UpdateUserRequest) //take pattern data submission
-    if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+    id, _ := strconv.Atoi(mux.Vars(r)["id"])
+
+    user, err := h.UserRepository.GetUser(id)
+    if err != nil {
       w.WriteHeader(http.StatusBadRequest)
       response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
       json.NewEncoder(w).Encode(response)
       return
     }
 
-    id, _ := strconv.Atoi(mux.Vars(r)["id"])
-
-    user := models.User{}
-
-    if request.Name != "" {
-      user.Name = request.Name
-    }
-
-    if request.Email != "" {
-      user.Email = request.Email
-    }
-
-    if request.Password != "" {
-      user.Password = request.Password
-    }
-
-    data, err := h.UserRepository.UpdateUser(user,id)
+    data, err := h.UserRepository.DeleteUser(user,id)
     if err != nil {
       w.WriteHeader(http.StatusInternalServerError)
       response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
@@ -84,7 +71,7 @@
 
 > File: `routes/users.go`
 
-- Write `Update User` route with `PATCH` method
+- Write `Delete User` route with `DELETE` method
 
   ```go
   func UserRoutes(r *mux.Router) {
@@ -94,6 +81,7 @@
     r.HandleFunc("/users", h.FindUsers).Methods("GET")
     r.HandleFunc("/user/{id}", h.GetUser).Methods("GET")
     r.HandleFunc("/user", h.CreateUser).Methods("POST")
-    r.HandleFunc("/user/{id}", h.UpdateUser).Methods("PATCH") // Write this code
+    r.HandleFunc("/user/{id}", h.UpdateUser).Methods("PATCH")
+    r.HandleFunc("/user/{id}", h.DeleteUser).Methods("DELETE") // Write this code
   }
   ```
