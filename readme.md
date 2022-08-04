@@ -1,28 +1,34 @@
-> This section we will using Database to store data
+## Table of contents
 
----
+- [Fetching data with ORM](#fetching-data-with-orm)
+  - [Repositories](#repositories)
+  - [Handlers](#handlers)
+  - [Routes](#routes)
 
-# Prepare
+# Fetching data with ORM
 
-Installation:
+### Repositories
 
-- Gorm
+> File: `repositories/users.go`
 
-  ```bash
-  go get -u gorm.io/gorm
+- Find User all data using `Find` method
+
+  ```go
+  func (r *repository) FindUsers() ([]models.User, error) {
+    var users []models.User
+    err := r.db.Find(&users).Error // Using FInd method
+
+    return users, err
+  }
   ```
 
-- MySql
-  ```bash
-  go get -u gorm.io/driver/mysql
+- Get User data by ID using `First` method
+
+  ```go
+  func (r *repository) GetUser(ID int) (models.User, error) {
+    var user models.User
+    err := r.db.First(&user, ID).Error // Using First method
+
+    return user, err
+  }
   ```
-
-Database:
-
-- Create database named `dumbmerch`
-
-- Create `pkg` folder, inside it create `mysql` folder
-
-- Inside `mysql` folder, create `mysql.go` file
-
-# Fetching Query with Gorm
